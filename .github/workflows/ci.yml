@@ -20,7 +20,7 @@ jobs:
     #     working-directory: ./web
     # # Specify the OS we want the workflow to run on
     # runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: Hari
     # Define the steps for this job
     steps:
     - uses: actions/checkout@v2
