@@ -32,21 +32,21 @@ jobs:
     - name: 'Run Tests'
       run: npm run test
 
-  # # Run the linter to check for code style issues
-  # lint:
-  #   name: 'Run linter'
-  #   defaults:
-  #     run:
-  #       shell: bash
-  #       # Define the working directory for all run steps in the workflow
-  #       working-directory: ./web
-  #   runs-on: ubuntu-latest
-  #   steps:    
-  #   - uses: actions/checkout@v2
-  #     name: 'Checkout repository'
-    
-  #   - name: 'Install Dependencies'
-  #     run: npm install
-
-  #   - name: 'Run Linter'
-  #     run: npx standard -v
+  test:
+    name: 'Test slack notification'
+    # defaults:
+    #   run:
+    #     shell: bash
+    #     # Define the working directory for all run steps in the workflow
+    #     working-directory: ./web
+    runs-on: Hari
+    steps:    
+    - uses: slackapi/slack-github-action@v1.26.0
+      name: 'send notification usidng webhook'
+      with: 
+        Payload: |
+        {
+        "test" : "notifocation successfully send to slack"
+        }
+      env:
+        SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
