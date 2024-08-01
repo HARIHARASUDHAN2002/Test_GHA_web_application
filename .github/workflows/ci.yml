@@ -46,7 +46,7 @@ jobs:
       with: 
         Payload: |
           {
-          "test" : "notifocation successfully send to slack"
+          "text" : "notifocation successfully send to slack"
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
