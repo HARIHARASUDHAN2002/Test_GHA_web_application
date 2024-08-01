@@ -44,7 +44,7 @@ jobs:
           "attachments": [
             {
               "color": "'"$color"'",
-              "text": "*text alignment in all js file - workflow result: $status*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+              "text": "*text alignment in all js file - workflow result: $message*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
             }
           ]
         }' ${{ secrets.SLACK_WEBHOOK_URL }}
