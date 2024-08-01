@@ -33,6 +33,7 @@ jobs:
       with:
         # channel: "test"
         # channel-id: "C07EVC5QZU3"
-        payload: '${{ job.status }}'
+        message: 'Starting Docker Build and Push...'
+        # payload: '${{ job.status }}'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
