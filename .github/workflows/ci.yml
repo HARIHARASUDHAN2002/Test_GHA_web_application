@@ -39,7 +39,7 @@ jobs:
           message="Continuous Integration - workflow result: success"
         else
           color="danger"
-          message="Continuous Integration - workflow result: failure"
+          message="Continuous Integration - workflow result: failed"
         fi
 
         curl -X POST -H 'Content-type: application/json' --data '{

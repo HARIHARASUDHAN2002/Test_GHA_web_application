@@ -34,7 +34,7 @@ jobs:
         if [ "$status" = "success" ]; then
           message="text alignment in all js file - workflow result: success"
         else
-          message="text alignment in all js file - workflow result: failure"
+          message="text alignment in all js file - workflow result: failed"
         fi
 
         curl -X POST -H 'Content-type: application/json' --data '{
