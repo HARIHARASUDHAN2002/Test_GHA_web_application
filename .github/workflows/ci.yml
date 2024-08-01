@@ -35,20 +35,18 @@ jobs:
       run: |
         status=${{ needs.run-tests.result }}
         if [ "$status" = "success" ]; then
+          color="good"
           message="Continuous Integration - workflow result: success"
         else
+          color="danger"
           message="Continuous Integration - workflow result: failure"
         fi
 
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "'"$message"'",
-          "blocks": [
+          "attachments": [
             {
-              "type": "section",
-              "text": {
-                "color": "'"$([[ "$status" == "success" ]] && echo "good" || echo "danger")"'",
-                "text": "*'"$message"'*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
-              }
+              "color": "'"$color"'",
+              "text": "*'"$message"'*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
             }
           ]
         }' ${{ secrets.SLACK_WEBHOOK_URL }}
