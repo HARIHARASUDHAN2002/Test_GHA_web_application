@@ -44,7 +44,7 @@ jobs:
     - uses: slackapi/slack-github-action@v1.26.0
       name: 'send notification usidng webhook'
       with: 
-        Payload: |
+        payload: |
           {
           "text" : "notifocation successfully send to slack"
           }
