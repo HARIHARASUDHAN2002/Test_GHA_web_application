@@ -14,13 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout repository'
+      id: checkout
       uses: actions/checkout@v2
 
     - name: 'Install Dependencies'
+      id: install
       run: npm install
     
     - name: 'Run Tests'
+      id: test
       run: npm run test
+
+    - name: 'Set step status outputs'
+      id: set-status
+      run: |
+        echo "checkout_status=${{ steps.checkout.outcome }}" >> $GITHUB_ENV
+        echo "install_status=${{ steps.install.outcome }}" >> $GITHUB_ENV
+        echo "test_status=${{ steps.test.outcome }}" >> $GITHUB_ENV
 
   slack-notification:
     name: 'Send Slack notification'
@@ -30,8 +40,18 @@ jobs:
     - name: 'Send notification using webhook'
       uses: slackapi/slack-github-action@v1.26.0
       with:
-        payload: '{"text": "Run tests job ${{ job.status }}, ${{ toJson(steps) }}"}'
-        status: '${{ job.status }}'
-        steps: '${{ toJson(steps) }}'
+        payload: |
+          {
+            "text": "Run tests job ${{ needs.run-tests.result }}",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*CI Workflow Results:*\n\n*Checkout Repository:* ${{ env.checkout_status }}\n*Install Dependencies:* ${{ env.install_status }}\n*Run Tests:* ${{ env.test_status }}\n\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                }
+              }
+            ]
+          }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
