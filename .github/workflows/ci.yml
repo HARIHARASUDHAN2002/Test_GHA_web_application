@@ -25,18 +25,18 @@ jobs:
       id: test
       run: npm run test
 
+    - name: 'Set step status outputs'
+      id: set-status
+      run: |
+        echo "checkout_status=${{ steps.checkout.outcome }}" >> $GITHUB_ENV
+        echo "install_status=${{ steps.install.outcome }}" >> $GITHUB_ENV
+        echo "test_status=${{ steps.test.outcome }}" >> $GITHUB_ENV
+
   slack-notification:
     name: 'Send Slack notification'
     runs-on: ubuntu-latest
     needs: run-tests
     steps:
-    - name: 'Set Slack message'
-      id: set-message
-      run: |
-        echo "CHECKOUT_STATUS=${{ steps.checkout.outcome }}" >> $GITHUB_ENV
-        echo "INSTALL_STATUS=${{ steps.install.outcome }}" >> $GITHUB_ENV
-        echo "TEST_STATUS=${{ steps.test.outcome }}" >> $GITHUB_ENV
-
     - name: 'Send notification using webhook'
       uses: slackapi/slack-github-action@v1.26.0
       with:
@@ -48,7 +48,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*CI Workflow Results:*\n\n*Checkout Repository:* ${{ env.CHECKOUT_STATUS }}\n*Install Dependencies:* ${{ env.INSTALL_STATUS }}\n*Run Tests:* ${{ env.TEST_STATUS }}"
+                  "text": "*CI Workflow Results:*\n\n*Checkout Repository:* ${{ env.checkout_status }}\n*Install Dependencies:* ${{ env.install_status }}\n*Run Tests:* ${{ env.test_status }}"
                 }
               }
             ]
