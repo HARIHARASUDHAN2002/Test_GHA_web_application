@@ -38,16 +38,21 @@ jobs:
     needs: run-tests
     steps:
     - name: 'Send notification using curl'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        CHECKOUT_STATUS: ${{ env.checkout_status }}
+        INSTALL_STATUS: ${{ env.install_status }}
+        TEST_STATUS: ${{ env.test_status }}
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "Run tests job ${{ needs.run-tests.result }}",
+          "text": "GitHub Actions workflow result: ${{ needs.run-tests.result }}",
           "blocks": [
             {
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "*GitHub Action build result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ env.checkout_status }}\n*Install Status:* ${{ env.install_status }}\n*Test Status:* ${{ env.test_status }}\n\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Commit or PR>"
+                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${CHECKOUT_STATUS}\n*Install Status:* ${INSTALL_STATUS}\n*Test Status:* ${TEST_STATUS}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
-        }' ${{ secrets.SLACK_WEBHOOK_URL }}
+        }' $SLACK_WEBHOOK_URL
