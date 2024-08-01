@@ -40,9 +40,9 @@ jobs:
     - name: 'Send notification using curl'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        CHECKOUT_STATUS: ${{ env.checkout_status }}
-        INSTALL_STATUS: ${{ env.install_status }}
-        TEST_STATUS: ${{ env.test_status }}
+        CHECKOUT_STATUS: ${{ steps.set-status.outputs.checkout_status }}
+        INSTALL_STATUS: ${{ steps.set-status.outputs.install_status }}
+        TEST_STATUS: ${{ steps.set-status.outputs.test_status }}
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{
           "text": "GitHub Actions workflow result: ${{ needs.run-tests.result }}",
@@ -51,7 +51,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${CHECKOUT_STATUS}\n*Install Status:* ${INSTALL_STATUS}\n*Test Status:* ${TEST_STATUS}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* '"${CHECKOUT_STATUS}"'\n*Install Status:* '"${INSTALL_STATUS}"'\n*Test Status:* '"${TEST_STATUS}"'\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
