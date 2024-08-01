@@ -14,23 +14,23 @@ jobs:
     name: 'Run unit tests'
     runs-on: Hari
     steps:
-    - name: 'Checkout repository'
-      uses: actions/checkout@v2
+      - name: 'Checkout repository'
+        uses: actions/checkout@v2
 
-    - name: 'Install Dependencies'
-      run: npm install
+      - name: 'Install Dependencies'
+        run: npm install
     
-    - name: 'Run Tests'
-      run: npm run test
+      - name: 'Run Tests'
+        run: npm run test
 
   slack-notification:
-    name: 'Test slack notification'
-    runs-on: ubuntu-latest
+    name: 'Send Slack notification'
+    runs-on: Hari
     needs: run-tests
     steps:    
-    - name: 'Send notification using webhook'
-      uses: slackapi/slack-github-action@v1.26.0
-      with:
-        payload: '${{ job.status }}"'
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: 'Send notification using webhook'
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: '{"text": "Run tests job ${{ needs.run-tests.result }}"}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
