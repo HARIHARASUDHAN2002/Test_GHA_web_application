@@ -48,7 +48,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*CI Workflow Results:*\n\n*Checkout Repository:* ${{ env.checkout_status }}\n*Install Dependencies:* ${{ env.install_status }}\n*Run Tests:* ${{ env.test_status }}\n\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                  "text": "*GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
                 }
               }
             ]
