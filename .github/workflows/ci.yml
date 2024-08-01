@@ -19,7 +19,7 @@ jobs:
 
     - name: 'Install Dependencies'
       id: install
-      run: npmuw install
+      run: npm install
     
     - name: 'Run Tests'
       id: test
