@@ -32,7 +32,7 @@ jobs:
       uses: slackapi/slack-github-action@v1.26.0
       with:
         # channel: "test"
-        channel-id: "test"
+        channel-id: "C07EVC5QZU3"
         payload: '${{ job.status }}"'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
