@@ -49,4 +49,4 @@ jobs:
           "test" : "notifocation successfully send to slack"
           }
       env:
-        SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
