@@ -31,12 +31,16 @@ jobs:
     - name: 'Send notification using curl'
       run: |
         status=${{ needs.test.result }}
-        color="good" # Default color (green) for success
-        if [ "$status" != "success" ]; then
-          color="danger" # Red color for failure
+        if [ "$status" = "success" ]; then
+          message="text alignment in all js file - workflow result: success"
+          color="good"
+        else
+          message="text alignment in all js file - workflow result: failure"
+          color="danger"
         fi
+
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "text alignment in all js file - workflow result: $status",
+          "text": "'"$message"'",
           "attachments": [
             {
               "color": "'"$color"'",
