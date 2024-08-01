@@ -28,6 +28,7 @@ jobs:
     runs-on: Hari
     steps:    
     - name: 'Send notification using webhook'
+      id: slack
       uses: slackapi/slack-github-action@v1.26.0
       with: 
         payload: |
@@ -36,3 +37,4 @@ jobs:
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
