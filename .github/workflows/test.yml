@@ -40,13 +40,13 @@ jobs:
     - name: 'Send notification using curl'
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "GitHub Actions workflow result: ${{ needs.run-tests.result }}",
+          "text": "text alignment in all js file - workflow result: ${{ needs.run-tests.result }}",
           "blocks": [
             {
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                "text": "*text alignment in all js file - workflow result: ${{ needs.run-tests.result }}*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
