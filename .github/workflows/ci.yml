@@ -46,7 +46,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ needs.run-tests.outputs.checkout_status }}\n*Install Status:* ${{ needs.run-tests.outputs.install_status }}\n*Test Status:* ${{ needs.run-tests.outputs.test_status }}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
