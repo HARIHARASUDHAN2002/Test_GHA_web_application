@@ -28,9 +28,9 @@ jobs:
     - name: 'Set step status outputs'
       id: set-status
       run: |
-        echo "checkout_status=${{ steps.checkout.outcome }}" >> $GITHUB_ENV
-        echo "install_status=${{ steps.install.outcome }}" >> $GITHUB_ENV
-        echo "test_status=${{ steps.test.outcome }}" >> $GITHUB_ENV
+        echo "::set-output name=checkout_status::${{ steps.checkout.outcome }}"
+        echo "::set-output name=install_status::${{ steps.install.outcome }}"
+        echo "::set-output name=test_status::${{ steps.test.outcome }}"
 
   slack-notification:
     name: 'Send Slack notification'
@@ -38,11 +38,6 @@ jobs:
     needs: run-tests
     steps:
     - name: 'Send notification using curl'
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        CHECKOUT_STATUS: ${{ steps.set-status.outputs.checkout_status }}
-        INSTALL_STATUS: ${{ steps.set-status.outputs.install_status }}
-        TEST_STATUS: ${{ steps.set-status.outputs.test_status }}
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{
           "text": "GitHub Actions workflow result: ${{ needs.run-tests.result }}",
@@ -51,8 +46,8 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* '"${CHECKOUT_STATUS}"'\n*Install Status:* '"${INSTALL_STATUS}"'\n*Test Status:* '"${TEST_STATUS}"'\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ needs.run-tests.outputs.checkout_status }}\n*Install Status:* ${{ needs.run-tests.outputs.install_status }}\n*Test Status:* ${{ needs.run-tests.outputs.test_status }}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
-        }' $SLACK_WEBHOOK_URL
+        }' ${{ secrets.SLACK_WEBHOOK_URL }}
