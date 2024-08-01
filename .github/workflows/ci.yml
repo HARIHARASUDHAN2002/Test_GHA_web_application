@@ -30,7 +30,7 @@ jobs:
     - name: 'Send notification using webhook'
       id: slack
       uses: slackapi/slack-github-action@v1.26.0
-      with: 
+      with: |
         status: ${{ job.status }}
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
