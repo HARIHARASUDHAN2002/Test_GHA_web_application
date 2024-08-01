@@ -38,7 +38,7 @@ jobs:
         fi
 
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "'"$message"'",
+          # "text": "'"$message"'",
           "attachments": [
             {
               "color": "'"$([[ "$status" == "success" ]] && echo "good" || echo "danger")"'",
