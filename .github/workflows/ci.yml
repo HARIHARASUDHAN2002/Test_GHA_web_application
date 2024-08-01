@@ -32,7 +32,7 @@ jobs:
     - name: 'Run Tests'
       run: npm run test
 
-  test:
+  slack_notification:
     name: 'Test slack notification'
     # defaults:
     #   run:
