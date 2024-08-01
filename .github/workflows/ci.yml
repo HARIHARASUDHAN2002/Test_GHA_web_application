@@ -48,10 +48,13 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*GitHub Action build result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ steps.set-status.outputs.checkout_status }}\n*Install Status:* ${{ steps.set-status.outputs.install_status }}\n*Test Status:* ${{ steps.set-status.outputs.test_status }}\n\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                  "text": "*GitHub Action build result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ env.checkout_status }}\n*Install Status:* ${{ env.install_status }}\n*Test Status:* ${{ env.test_status }}\n\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
                 }
               }
             ]
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        checkout_status: ${{ steps.set-status.outputs.checkout_status }}
+        install_status: ${{ steps.set-status.outputs.install_status }}
+        test_status: ${{ steps.set-status.outputs.test_status }}
