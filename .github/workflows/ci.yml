@@ -46,7 +46,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "*GitHub Action build result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ env.checkout_status }}\n*Install Status:* ${{ env.install_status }}\n*Test Status:* ${{ env.test_status }}\n\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|View Commit or PR>"
+                "text": "*GitHub Action build result: ${{ needs.run-tests.result }}*\n\n*Checkout Status:* ${{ env.checkout_status }}\n*Install Status:* ${{ env.install_status }}\n*Test Status:* ${{ env.test_status }}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
