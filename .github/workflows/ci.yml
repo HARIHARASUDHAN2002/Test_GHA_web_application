@@ -46,7 +46,7 @@ jobs:
             {
               "type": "section",
               "text": {
-                "type": "mrkdwn",
+                "color": "'"$([[ "$status" == "success" ]] && echo "good" || echo "danger")"'",
                 "text": "*'"$message"'*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
