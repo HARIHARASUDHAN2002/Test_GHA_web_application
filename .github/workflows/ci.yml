@@ -26,12 +26,11 @@ jobs:
   slack-notification:
     name: 'Test slack notification'
     runs-on: Hari
+    needs: run-tests
     steps:    
     - name: 'Send notification using webhook'
-      id: slack
       uses: slackapi/slack-github-action@v1.26.0
-      with: |
-        status: ${{ job.status }}
+      with:
+        payload: '{"text":"Run tests job ${{ job.status }}"}'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
