@@ -35,18 +35,18 @@ jobs:
   slack-notification:
     name: 'Send Slack notification'
     runs-on: ubuntu-latest
-    # needs: run-tests
+    needs: run-tests
     steps:
     - name: 'Send notification using curl'
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "Continuous Integration Workflow status: ${{ needs.run-tests.result }}",
+          "text": "Continuous Integration Workflow: ${{ needs.run-tests.result }}",
           "blocks": [
             {
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+                "text": "\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
               }
             }
           ]
