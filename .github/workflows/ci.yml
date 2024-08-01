@@ -31,5 +31,7 @@ jobs:
       uses: slackapi/slack-github-action@v1.26.0
       with:
         payload: '{"text": "Run tests job ${{ job.status }}"}'
+        status: '${{job.status}}'
+        steps: '${{toJson(steps)}}'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
