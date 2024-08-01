@@ -1,6 +1,5 @@
 name: text alignment in all js file
 
-# This workflow is triggered whenever a new PR is created on the main branch
 on:
   pull_request:
     branches:
@@ -27,18 +26,21 @@ jobs:
     name: 'Send Slack notification'
     runs-on: ubuntu-latest
     needs: test
+    if: always() # Ensure this job runs regardless of the previous job's result
     steps:
     - name: 'Send notification using curl'
       run: |
+        status=${{ needs.test.result }}
+        color="good" # Default color (green) for success
+        if [ "$status" != "success" ]; then
+          color="danger" # Red color for failure
+        fi
         curl -X POST -H 'Content-type: application/json' --data '{
-          "text": "text alignment in all js file - workflow result: ${{ needs.test.result }}",
-          "blocks": [
+          "text": "text alignment in all js file - workflow result: $status",
+          "attachments": [
             {
-              "type": "section",
-              "text": {
-                "type": "mrkdwn",
-                "text": "*text alignment in all js file - workflow result: ${{ needs.test.result }}*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
-              }
+              "color": "'"$color"'",
+              "text": "*text alignment in all js file - workflow result: $status*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
             }
           ]
         }' ${{ secrets.SLACK_WEBHOOK_URL }}
