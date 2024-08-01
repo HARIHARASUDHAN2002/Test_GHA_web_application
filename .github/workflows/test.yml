@@ -31,3 +31,23 @@ jobs:
 
     - name: 'Run Linter'
       run: npx standard -v
+
+  slack-notification:
+    name: 'Send Slack notification'
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - name: 'Send notification using curl'
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{
+          "text": "GitHub Actions workflow result: ${{ needs.run-tests.result }}",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*GitHub Actions workflow result: ${{ needs.run-tests.result }}*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+              }
+            }
+          ]
+        }' ${{ secrets.SLACK_WEBHOOK_URL }}

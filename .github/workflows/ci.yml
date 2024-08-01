@@ -25,13 +25,6 @@ jobs:
       id: test
       run: npm run test
 
-    - name: 'Set step status outputs'
-      id: set-status
-      run: |
-        echo "::set-output name=checkout_status::${{ steps.checkout.outcome }}"
-        echo "::set-output name=install_status::${{ steps.install.outcome }}"
-        echo "::set-output name=test_status::${{ steps.test.outcome }}"
-
   slack-notification:
     name: 'Send Slack notification'
     runs-on: ubuntu-latest
