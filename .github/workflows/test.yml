@@ -42,7 +42,7 @@ jobs:
           "attachments": [
             {
               "color": "'"$([[ "$status" == "success" ]] && echo "good" || echo "danger")"'",
-              "text": "*text alignment in all js file - workflow result: $status*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+              "text": "*'"$message"'*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
             }
           ]
         }' ${{ secrets.SLACK_WEBHOOK_URL }}
