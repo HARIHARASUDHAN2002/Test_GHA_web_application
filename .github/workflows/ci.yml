@@ -25,11 +25,14 @@ jobs:
 
   slack-notification:
     name: 'Test slack notification'
-    runs-on: windows
+    runs-on: Hari
     steps:    
     - name: 'Send notification using webhook'
       uses: slackapi/slack-github-action@v1.26.0
       with: 
-        slack-message: "Notification successfully sent to Slack"
+        payload: |
+          {
+            "text": "Notification successfully sent to Slack"
+          }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
