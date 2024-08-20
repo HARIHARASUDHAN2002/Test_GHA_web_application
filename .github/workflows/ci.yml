@@ -34,7 +34,7 @@ jobs:
 
   test-skip:
     name: 'Test Skip Job'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     if: ${{ github.event.inputs.RUN_UBUNTU == 'true' || github.event_name == 'push' }}
     steps:
     - name: 'Print'
