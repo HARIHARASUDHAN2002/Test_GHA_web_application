@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ env.RUN_UBUNTU == 'true' }}
     needs: run-tests
-    if: always() # Ensure this job runs regardless of the previous job's result
+    # if: always() # Ensure this job runs regardless of the previous job's result
     steps:
     - name: 'Send notification using curl'
       run: |
