@@ -19,18 +19,25 @@ jobs:
 
     - name: 'Install Dependencies'
       id: install
-      run: npmhx install
-    
+      run: npm install # Corrected command
+
     - name: 'Run Tests'
       id: test
       run: npm run test
 
+  test-skip:
+    name: 'Test Skip Job'
+    runs-on: windows-latest
+    if: ${{ github.event.inputs.RUN_UBUNTU == 'true' || github.event_name == 'workflow_dispatch' }}
+    steps:
+    - name: 'Print'
+      run: echo "Test skip job executed"
+
   slack-notification:
     name: 'Send Slack notification'
     runs-on: ubuntu-latest
-    if: ${{ env.RUN_UBUNTU == 'true' }}
     needs: run-tests
-    # if: always() # Ensure this job runs regardless of the previous job's result
+    if: always() # Ensure this job runs regardless of the result of the run-tests job
     steps:
     - name: 'Send notification using curl'
       run: |
@@ -44,10 +51,13 @@ jobs:
         fi
 
         curl -X POST -H 'Content-type: application/json' --data '{
-          "attachments": [
+          "blocks": [
             {
-              "color": "'"$color"'",
-              "text": "*'"$message"'*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*'"$message"'*\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Results>"
+              }
             }
           ]
         }' ${{ secrets.SLACK_WEBHOOK_URL }}
