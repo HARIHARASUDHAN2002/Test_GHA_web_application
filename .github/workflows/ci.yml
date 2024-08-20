@@ -8,14 +8,26 @@ on:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      RUN_UBUNTU:
-        description: 'Set to true to run the Ubuntu job'
-        required: true
-        default: 'false'
-        type: string
 
 jobs:
+  count-pull-requests:
+    name: 'Count Open Pull Requests'
+    runs-on: ubuntu-latest
+    outputs:
+      pr_count: ${{ steps.count.outputs.pr_count }}
+    steps:
+    - name: 'Checkout repository'
+      uses: actions/checkout@v2
+    
+    - name: 'Count open pull requests'
+      id: count
+      run: |
+        # Fetch the count of open pull requests
+        response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/pulls?state=open")
+        pr_count=$(echo "$response" | jq length)
+        echo "pr_count=$pr_count" >> $GITHUB_ENV
+        echo "::set-output name=pr_count::$pr_count"
+
   run-tests:
     name: 'Run unit tests'
     runs-on: windows-latest
@@ -35,7 +47,8 @@ jobs:
   test-skip:
     name: 'Test Skip Job'
     runs-on: windows-latest
-    if: false
+    if: ${{ jobs.count-pull-requests.outputs.pr_count == '1' }}
+    needs: count-pull-requests
     steps:
     - name: 'Print'
       run: echo "Test skip job executed"
