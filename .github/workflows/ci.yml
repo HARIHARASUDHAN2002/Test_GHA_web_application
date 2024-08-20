@@ -47,7 +47,7 @@ jobs:
   test-skip:
     name: 'Test Skip Job'
     runs-on: windows-latest
-    if: ${{ jobs.count-pull-requests.outputs.pr_count == '1' }}
+    if: ${{ needs.count-pull-requests.outputs.pr_count == '1' }}
     needs: count-pull-requests
     steps:
     - name: 'Print'
